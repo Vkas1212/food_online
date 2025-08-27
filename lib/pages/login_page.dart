@@ -1,35 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:food_online/service/widget_support.dart';
-import 'package:food_online/controller/focus_node.dart';
 
-class SignupPage extends StatefulWidget {
-  final SignupFocusController controller;
-  const SignupPage({super.key, required this.controller});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
-  bool _isUsernameFocused = false;
-  bool _isPasswordFocused = false;
-
-  @override
-  void initState() {
-    super.initState();
-    widget.controller.usernameFocusNode.addListener(() {
-      setState(() {
-        _isUsernameFocused = widget.controller.usernameFocusNode.hasFocus;
-      });
-    });
-
-    widget.controller.passwordFocusNode.addListener(() {
-      setState(() {
-        _isPasswordFocused = widget.controller.passwordFocusNode.hasFocus;
-      });
-    });
-  }
-
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,34 +72,12 @@ class _SignupPageState extends State<SignupPage> {
                       Padding(
                         padding: const EdgeInsets.only(left: 100.0),
                         child: Text(
-                          "SignUp",
+                          "Log In",
                           style: AppWidget.HeadlineTextFeildStyle(),
                         ),
                       ),
                       SizedBox(height: 15.0),
-                      Text("Name", style: AppWidget.signUpTextFeildStyle()),
-                      SizedBox(height: 5.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFececf8),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: SizedBox(
-                          width: 350,
-                          child: TextField(
-                            focusNode: widget.controller.usernameFocusNode,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: _isUsernameFocused
-                                  ? ''
-                                  : 'Enter Username',
-                              prefixIcon: Icon(Icons.person_outline),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15.0),
+
                       Text("Email", style: AppWidget.signUpTextFeildStyle()),
                       SizedBox(height: 5.0),
                       Container(
@@ -131,11 +88,10 @@ class _SignupPageState extends State<SignupPage> {
                         child: SizedBox(
                           width: 350,
                           child: TextField(
-                            focusNode: widget.controller.passwordFocusNode,
                             obscureText: true,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: _isPasswordFocused ? '' : 'Enter Email',
+                              hintText: 'Enter Email',
                               prefixIcon: Icon(Icons.mail_outline),
                             ),
                           ),
@@ -153,16 +109,25 @@ class _SignupPageState extends State<SignupPage> {
                         child: SizedBox(
                           width: 350,
                           child: TextField(
-                            focusNode: widget.controller.passwordFocusNode,
                             obscureText: true,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: _isPasswordFocused
-                                  ? ''
-                                  : 'Enter Password',
+                              hintText: 'Enter Password',
                               prefixIcon: Icon(Icons.lock_outline),
                             ),
                           ),
+                        ),
+                      ),
+                      SizedBox(height: 5.0),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 210),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Forgot Password?",
+                              style: AppWidget.simpleTextFeildStyle(),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 20.0),
@@ -177,26 +142,10 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           child: Center(
                             child: Text(
-                              "Sign Up",
+                              "Log In",
                               style: AppWidget.boldwhiteTextFeildStyle(),
                             ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 55.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Already have an account?",
-                              style: AppWidget.simpleTextFeildStyle(),
-                            ),
-                            SizedBox(width: 5.0),
-                            Text(
-                              "Log In",
-                              style: AppWidget.boldLTextFeildStyle(),
-                            ),
-                          ],
                         ),
                       ),
                     ],

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_online/service/widget_support.dart';
 
+// ignore: must_be_immutable
 class DetailPage extends StatefulWidget {
   String image, name, price, description;
   DetailPage({
+    super.key,
     required this.name,
     required this.image,
     required this.price,
