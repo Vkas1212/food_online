@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_online/pages/login_page.dart';
 import 'package:food_online/service/widget_support.dart';
 import 'package:food_online/controller/focus_node.dart';
 
@@ -13,6 +14,7 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   bool _isUsernameFocused = false;
   bool _isPasswordFocused = false;
+  bool _isEmailFocused = false;
 
   @override
   void initState() {
@@ -26,6 +28,12 @@ class _SignupPageState extends State<SignupPage> {
     widget.controller.passwordFocusNode.addListener(() {
       setState(() {
         _isPasswordFocused = widget.controller.passwordFocusNode.hasFocus;
+      });
+    });
+
+    widget.controller.emailFocusNode.addListener(() {
+      setState(() {
+        _isEmailFocused = widget.controller.emailFocusNode.hasFocus;
       });
     });
   }
@@ -131,11 +139,11 @@ class _SignupPageState extends State<SignupPage> {
                         child: SizedBox(
                           width: 350,
                           child: TextField(
-                            focusNode: widget.controller.passwordFocusNode,
+                            focusNode: widget.controller.emailFocusNode,
                             obscureText: true,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: _isPasswordFocused ? '' : 'Enter Email',
+                              hintText: _isEmailFocused ? '' : 'Enter Email',
                               prefixIcon: Icon(Icons.mail_outline),
                             ),
                           ),
@@ -192,9 +200,19 @@ class _SignupPageState extends State<SignupPage> {
                               style: AppWidget.simpleTextFeildStyle(),
                             ),
                             SizedBox(width: 5.0),
-                            Text(
-                              "Log In",
-                              style: AppWidget.boldLTextFeildStyle(),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Log In",
+                                style: AppWidget.boldLTextFeildStyle(),
+                              ),
                             ),
                           ],
                         ),

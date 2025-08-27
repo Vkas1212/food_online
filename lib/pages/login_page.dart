@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_online/controller/focus_node.dart';
+import 'package:food_online/pages/signup_page.dart';
 import 'package:food_online/service/widget_support.dart';
 
 class LoginPage extends StatefulWidget {
@@ -146,6 +148,34 @@ class _LoginPageState extends State<LoginPage> {
                               style: AppWidget.boldwhiteTextFeildStyle(),
                             ),
                           ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 55.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Don't have an account?",
+                              style: AppWidget.simpleTextFeildStyle(),
+                            ),
+                            SizedBox(width: 5.0),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SignupPage(
+                                      controller: SignupFocusController(),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Sign Up",
+                                style: AppWidget.boldLTextFeildStyle(),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
