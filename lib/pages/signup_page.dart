@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_online/pages/buttom_nav.dart';
 import 'package:food_online/pages/login_page.dart';
+import 'package:food_online/service/data_base.dart';
 import 'package:food_online/service/widget_support.dart';
 import 'package:food_online/controller/focus_node.dart';
+import 'package:random_string/random_string.dart';
+import 'package:food_online/service/user_pref.dart';
 
 class SignupPage extends StatefulWidget {
   final SignupFocusController controller;
@@ -15,6 +20,67 @@ class _SignupPageState extends State<SignupPage> {
   bool _isUsernameFocused = false;
   bool _isPasswordFocused = false;
   bool _isEmailFocused = false;
+
+  String email = "", password = "", name = "";
+  TextEditingController namecontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+  TextEditingController mailcontroller = TextEditingController();
+
+  Future<void> registration() async {
+    if (namecontroller.text != "" && mailcontroller.text != "") {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+
+        String Id = randomAlphaNumeric(10);
+
+        Map<String, dynamic> userInfoMap = {
+          "Name": namecontroller.text,
+          "Email": mailcontroller.text,
+          "Id": Id,
+        };
+
+        await DataBaseMethods().addUserDetails(userInfoMap, Id);
+        await UserPreferences().saveUserName(namecontroller.text);
+        await UserPreferences().saveUserEmail(email);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              "Registered Successfully",
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+          ),
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ButtomNav()),
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Password Provided is too Weak",
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          );
+        } else if (e.code == "email-already-in-use") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Account Already Exists",
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          );
+        }
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -116,6 +182,7 @@ class _SignupPageState extends State<SignupPage> {
                         child: SizedBox(
                           width: 350,
                           child: TextField(
+                            controller: namecontroller,
                             focusNode: widget.controller.usernameFocusNode,
 
                             decoration: InputDecoration(
@@ -139,6 +206,7 @@ class _SignupPageState extends State<SignupPage> {
                         child: SizedBox(
                           width: 350,
                           child: TextField(
+                            controller: mailcontroller,
                             focusNode: widget.controller.emailFocusNode,
 
                             decoration: InputDecoration(
@@ -161,6 +229,7 @@ class _SignupPageState extends State<SignupPage> {
                         child: SizedBox(
                           width: 350,
                           child: TextField(
+                            controller: passwordcontroller,
                             focusNode: widget.controller.passwordFocusNode,
                             obscureText: true,
                             decoration: InputDecoration(
@@ -176,17 +245,31 @@ class _SignupPageState extends State<SignupPage> {
                       SizedBox(height: 20.0),
                       Padding(
                         padding: const EdgeInsets.only(left: 70.0),
-                        child: Container(
-                          width: 150,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Color(0xffef2b39),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Sign Up",
-                              style: AppWidget.boldwhiteTextFeildStyle(),
+                        child: GestureDetector(
+                          onTap: () {
+                            if (namecontroller.text != "" &&
+                                mailcontroller.text != "" &&
+                                passwordcontroller.text != "") {
+                              setState(() {
+                                name = namecontroller.text;
+                                email = mailcontroller.text;
+                                password = passwordcontroller.text;
+                              });
+                              registration();
+                            }
+                          },
+                          child: Container(
+                            width: 150,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Color(0xffef2b39),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Sign Up",
+                                style: AppWidget.boldwhiteTextFeildStyle(),
+                              ),
                             ),
                           ),
                         ),
