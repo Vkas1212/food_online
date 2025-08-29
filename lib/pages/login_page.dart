@@ -4,13 +4,33 @@ import 'package:food_online/pages/signup_page.dart';
 import 'package:food_online/service/widget_support.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final SignupFocusController controller;
+  const LoginPage({super.key, required this.controller});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isPasswordFocused = false;
+  bool _isEmailFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.passwordFocusNode.addListener(() {
+      setState(() {
+        _isPasswordFocused = widget.controller.passwordFocusNode.hasFocus;
+      });
+    });
+
+    widget.controller.emailFocusNode.addListener(() {
+      setState(() {
+        _isEmailFocused = widget.controller.emailFocusNode.hasFocus;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,10 +110,11 @@ class _LoginPageState extends State<LoginPage> {
                         child: SizedBox(
                           width: 350,
                           child: TextField(
-                            obscureText: true,
+                            focusNode: widget.controller.emailFocusNode,
+
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Enter Email',
+                              hintText: _isEmailFocused ? '' : 'Enter Email',
                               prefixIcon: Icon(Icons.mail_outline),
                             ),
                           ),
@@ -111,10 +132,13 @@ class _LoginPageState extends State<LoginPage> {
                         child: SizedBox(
                           width: 350,
                           child: TextField(
+                            focusNode: widget.controller.passwordFocusNode,
                             obscureText: true,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Enter Password',
+                              hintText: _isPasswordFocused
+                                  ? ''
+                                  : 'Enter Password',
                               prefixIcon: Icon(Icons.lock_outline),
                             ),
                           ),

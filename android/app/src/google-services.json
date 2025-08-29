@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "143689696683",
+    "project_id": "foodonline-b71a9",
+    "storage_bucket": "foodonline-b71a9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143689696683:android:c4dfb79ebd0bbc7d04beee",
+        "android_client_info": {
+          "package_name": "com.example.food_online"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0aXWGAabqzybSyvEjWi0oar_bzpyjxgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

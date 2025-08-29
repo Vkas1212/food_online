@@ -117,7 +117,7 @@ class _SignupPageState extends State<SignupPage> {
                           width: 350,
                           child: TextField(
                             focusNode: widget.controller.usernameFocusNode,
-                            obscureText: true,
+
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: _isUsernameFocused
@@ -140,7 +140,7 @@ class _SignupPageState extends State<SignupPage> {
                           width: 350,
                           child: TextField(
                             focusNode: widget.controller.emailFocusNode,
-                            obscureText: true,
+
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: _isEmailFocused ? '' : 'Enter Email',
@@ -205,7 +205,9 @@ class _SignupPageState extends State<SignupPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => LoginPage(),
+                                    builder: (context) => LoginPage(
+                                      controller: SignupFocusController(),
+                                    ),
                                   ),
                                 );
                               },
